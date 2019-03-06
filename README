@@ -16,4 +16,7 @@ checkout master, compile a release build. then come back to this dir and:
 checkout your branch to test and compile
 
     ./run.sh feature.data
-    ./diff.sh feature.data
+
+Now you can measure speedup of your featurebranch vs. baseline using:
+
+    ./diff.sh feature.data [baseline.data]
