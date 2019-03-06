@@ -1,6 +1,8 @@
 HOWTO
 =====
 
+install rebench from https://github.com/charig/ReBench
+
 copy default config
 
     cp rebench.conf.dist rebench.conf
