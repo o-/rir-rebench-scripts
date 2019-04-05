@@ -23,7 +23,7 @@ if [[ ! -f $BASELINE ]]; then
   exit 1
 fi
 
-~/.local/bin/rebench rebench.conf -df $BASELINE | head -n -1 | tail -n 16 | awk '{print $1", "$7}' | sort > /tmp/baseline.csv
-~/.local/bin/rebench rebench.conf -df $RUN | head -n -1 | tail -n 16 | awk '{print $1", "$7}' | sort > /tmp/compare.csv
+~/.local/bin/rebench rebench.conf -df $BASELINE | head -n -1 | tail -n +11 | awk '{print $1", "$7}' | sort > /tmp/baseline.csv
+~/.local/bin/rebench rebench.conf -df $RUN | head -n -1 | tail -n +11 | awk '{print $1", "$7}' | sort > /tmp/compare.csv
 
 ruby diff.rb
