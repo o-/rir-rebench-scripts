@@ -9,12 +9,6 @@ class String
   def bold;           "\e[1m#{self}\e[22m" end
 end
 
-# https://stackoverflow.com/a/14744502
-def gmean(xs)
-  one = BigDecimal.new 1
-  xs.map { |x| BigDecimal.new x }.inject(one, :*) ** (one / xs.size)
-end
-
 WARMUP = 5
 
 def mean(results)
@@ -55,7 +49,7 @@ wdiffs = []
 diffs = []
 
 def format_number(speedup)
-  speedup_s = speedup.round(2).to_s('F')
+  speedup_s = speedup.round(2).to_s()
 
   diff = (speedup-1).abs
   if diff > 0.1
@@ -73,12 +67,13 @@ def format_number(speedup)
   end
 end
 
-b.each do |n, t|
+b.keys.sort.each do |n|
+  t = b[n]
   name = n
   (40-name.length).times{ name+= " " }
 
-  speedup = BigDecimal(t[0].to_i)/BigDecimal(c[n][0].round(0))
-  raw_speedup = BigDecimal(t[1].to_i)/BigDecimal(c[n][1].round(0))
+  speedup = t[0]/c[n][0]
+  raw_speedup = t[1]/c[n][1]
 
   wdiffs << speedup
   diffs << raw_speedup
@@ -100,4 +95,4 @@ b.each do |n, t|
   puts "#{name} #{speedup_s}\t±#{var_s}\t(#{raw_speedup_s})    \twu: #{t[0].round(0)}\tvs. #{c[n][0].round(0)}"
 end
 
-puts "                                         #{gmean(wdiffs).round(2).to_s('F')}\t\t(#{gmean(diffs).round(2).to_s('F')})"
+puts "                                         #{mean(wdiffs).round(2)}\t\t(#{mean(diffs).round(2)})"
