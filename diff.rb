@@ -92,7 +92,7 @@ b.keys.sort.each do |n|
     end
   (3-var.to_s.length).times{ var_s += " "}
 
-  puts "#{name} #{speedup_s}\t±#{var_s}\t(#{raw_speedup_s})    \twu: #{t[0].round(0)}\tvs. #{c[n][0].round(0)}"
+  puts "#{name} #{speedup_s}\t±#{var_s}\t(#{raw_speedup_s})    \twu: #{c[n][0].round(0)}\tvs. #{t[0].round(0)}"
 end
 
 puts "                                         #{mean(wdiffs).round(2)}\t\t(#{mean(diffs).round(2)})"
