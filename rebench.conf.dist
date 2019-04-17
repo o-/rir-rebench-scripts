@@ -33,7 +33,7 @@ benchmark_suites:
                 extra_args: 3
                 codespeed_name: "[awf] bounce"
             - Storage:
-                extra_args: 20
+                extra_args: 25
                 codespeed_name: "[awf] store"
 
     shootout:
@@ -44,15 +44,15 @@ benchmark_suites:
         benchmarks:  # extra_args: benchmarkParameter [innerIterations]
             - binarytrees:
                 command: binarytrees/binarytrees
-                extra_args: 9
+                extra_args: 10
                 codespeed_name: "[shoot] bintree"
             - binarytrees_2:
                 command: binarytrees/binarytrees_2
-                extra_args: 9
+                extra_args: 10
                 codespeed_name: "[shoot] bintree2"
             - binarytrees_naive:
                 command: binarytrees/binarytrees_naive
-                extra_args: 9
+                extra_args: 10
                 codespeed_name: "[shoot] bintree_n"
             - fannkuchredux:
                 command: fannkuch/fannkuchredux
@@ -108,7 +108,7 @@ benchmark_suites:
                 codespeed_name: "[shoot] knucleo_b3"
             - mandelbrot_ascii:
                 command: mandelbrot/mandelbrot_ascii
-                extra_args: 500
+                extra_args: 600
                 codespeed_name: "[shoot] mandel_a"
 # turn off for now since they write binary data to stdout...
 #            - mandelbrot:
@@ -125,11 +125,11 @@ benchmark_suites:
                 codespeed_name: "[shoot] mandel_n_a"
             - mandelbrot_noout:
                 command: mandelbrot/mandelbrot_noout
-                extra_args: 500
+                extra_args: 700
                 codespeed_name: "[shoot] mandel_no"
             - mandelbrot_noout_naive:
                 command: mandelbrot/mandelbrot_noout_naive
-                extra_args: 300
+                extra_args: 500
                 codespeed_name: "[shoot] mandel_no_n"
             - nbody:
                 command: nbody/nbody
@@ -165,11 +165,11 @@ benchmark_suites:
                 codespeed_name: "[shoot] revcom"
             - reversecomplement_2:
                 command: reversecomplement/reversecomplement_2
-                extra_args: 10000
+                extra_args: 50000
                 codespeed_name: "[shoot] revcom2"
             - reversecomplement_naive:
                 command: reversecomplement/reversecomplement_naive
-                extra_args: 10000
+                extra_args: 50000
                 codespeed_name: "[shoot] revcom_n"
             - spectralnorm:
                 command: spectralnorm/spectralnorm
@@ -185,7 +185,7 @@ benchmark_suites:
                 codespeed_name: "[shoot] specnorm_a2"
             - spectralnorm_alt_3:
                 command: spectralnorm/spectralnorm_alt_3
-                extra_args: 50
+                extra_args: 100
                 codespeed_name: "[shoot] specnorm_a3"
             - spectralnorm_alt_4:
                 command: spectralnorm/spectralnorm_alt_4
@@ -193,7 +193,7 @@ benchmark_suites:
                 codespeed_name: "[shoot] specnorm_a4"
             - spectralnorm_math:
                 command: spectralnorm/spectralnorm_math
-                extra_args: 300
+                extra_args: 500
                 codespeed_name: "[shoot] specnorm_m"
             - spectralnorm_naive:
                 command: spectralnorm/spectralnorm_naive

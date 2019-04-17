@@ -15,10 +15,15 @@ def gmean(xs)
   xs.map { |x| BigDecimal.new x }.inject(one, :*) ** (one / xs.size)
 end
 
-WARMUP = 4
+WARMUP = 5
 
-def sum_up(results)
-  (results.map{|r| Float(r)}.inject(:+) / results.size).to_i
+def mean(results)
+  results.map{|r| Float(r)}.inject(:+) / results.size
+end
+
+def variance(results)
+  m = mean(results)
+  Math.sqrt(mean(results.map{|r| v = Float(r)-m; v*v}))
 end
 
 def read(f)
@@ -33,12 +38,13 @@ def read(f)
     results[name] ||= [[],[]]
     if iter > WARMUP
       results[name][0] << time
+    else
+      results[name][1] << time
     end
-    results[name][1] << time
   end
 
   Hash[results.map{|name, x|
-    [name, x.map{|r| sum_up(r)}]
+    [name, x.map{|r| mean(r)} + x.map{|r| variance(r)}]
   }]
 end
 
@@ -71,8 +77,8 @@ b.each do |n, t|
   name = n
   (40-name.length).times{ name+= " " }
 
-  speedup = BigDecimal(t[0])/BigDecimal(c[n][0])
-  raw_speedup = BigDecimal(t[1])/BigDecimal(c[n][1])
+  speedup = BigDecimal(t[0].to_i)/BigDecimal(c[n][0].round(0))
+  raw_speedup = BigDecimal(t[1].to_i)/BigDecimal(c[n][1].round(0))
 
   wdiffs << speedup
   diffs << raw_speedup
@@ -80,7 +86,18 @@ b.each do |n, t|
   speedup_s = format_number(speedup)
   raw_speedup_s = format_number(raw_speedup)
 
-  puts "#{name} #{speedup_s}\t(#{raw_speedup_s})    \twu: #{t[0]}\tvs. #{c[n][0]}"
+  var = ((t[2]).round(0))
+  var_s =
+    if var > 10
+      var.to_s.red
+    elsif var < 3
+      var.to_s.gray
+    else
+      var.to_s
+    end
+  (3-var.to_s.length).times{ var_s += " "}
+
+  puts "#{name} #{speedup_s}\t±#{var_s}\t(#{raw_speedup_s})    \twu: #{t[0].round(0)}\tvs. #{c[n][0].round(0)}"
 end
 
-puts "                                         #{gmean(wdiffs).round(2).to_s('F')}\t(#{gmean(diffs).round(2).to_s('F')})"
+puts "                                         #{gmean(wdiffs).round(2).to_s('F')}\t\t(#{gmean(diffs).round(2).to_s('F')})"

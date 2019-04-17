@@ -21,4 +21,4 @@ checkout your branch to test and compile
 
 Now you can measure speedup of your featurebranch vs. baseline using:
 
-    ./diff.sh feature.data [baseline.data]
+    ./diff.rb feature.data baseline.data
