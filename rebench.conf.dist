@@ -6,9 +6,9 @@ default_experiment: all
 default_data_file: 'benchmarks.data'
 
 runs:
-    invocations: 1
-    warmup: 4
-    iterations: 15
+    invocations: 2
+    warmup: 0
+    iterations: 8
     min_iteration_time: 10
 
 .locations:
@@ -26,9 +26,9 @@ benchmark_suites:
         command: &R_BENCH_COMMAND " harness.r %(benchmark)s %(iterations)s "
         max_invocation_time: 6000
         benchmarks:
-#            - Mandelbrot:
-#                extra_args: 1
-#                codespeed_name: "[awf] mandel"
+            - Mandelbrot:
+                extra_args: 500
+                codespeed_name: "[awf] mandel"
             - Bounce:
                 extra_args: 3
                 codespeed_name: "[awf] bounce"
@@ -215,6 +215,7 @@ executors:
         path: *LOCATION_RIR
         executable: "Rscript"
         args: ""
+        #environment: "PIR_DEBUG_DEOPTS=1"
 
 # define the benchmarks to be executed for a re-executable benchmark run
 experiments:
