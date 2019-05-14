@@ -14,4 +14,4 @@ if [[ -f $RUN ]]; then
   fi
 fi
 
-time ~/.local/bin/rebench rebench.conf -c -df $RUN
+time rebench rebench.conf -c -df $RUN

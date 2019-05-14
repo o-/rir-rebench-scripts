@@ -68,6 +68,7 @@ def format_number(speedup)
 end
 
 b.keys.sort.each do |n|
+  next if !c[n].is_a? Array
   t = b[n]
   name = n
   (40-name.length).times{ name+= " " }
