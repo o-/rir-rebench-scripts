@@ -2,8 +2,15 @@
 
 require_relative 'lib'
 
-c = read(ARGV[0])
-b = read(ARGV[1])
+def average(file)
+  results = read(file)
+  Hash[results.map{|name, x|
+    [name, x.map{|r| mean(r)} + x.map{|r| variance(r)}]
+  }]
+end
+
+c = average(ARGV[0])
+b = average(ARGV[1])
 
 wdiffs = []
 diffs = []

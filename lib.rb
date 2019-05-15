@@ -35,7 +35,5 @@ def read(f)
     end
   end
 
-  Hash[results.map{|name, x|
-    [name, x.map{|r| mean(r)} + x.map{|r| variance(r)}]
-  }]
+  results
 end
