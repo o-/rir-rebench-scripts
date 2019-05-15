@@ -8,7 +8,10 @@ b.keys.sort.each do |n|
   t = b[n]
   name = n
 
-  t[1].each do |r|
+  puts t.inspect
+  next
+
+  t[0].each do |r|
     puts "#{name}, #{r}"
   end
 end
