@@ -8,7 +8,7 @@ require 'zip'
 TOKEN = File.read("token.secret") if File.exists? "token.secret"
 
 def curl(what)
-  `curl -L -s --header "PRIVATE-TOKEN: #{TOKEN}" #{what}`
+  `curl --http1.1 -L -s --header "PRIVATE-TOKEN: #{TOKEN}" #{what}`
 end
 
 URL = "https://gitlab.com/api/v4/projects/10979413"
