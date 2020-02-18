@@ -4,11 +4,12 @@ require_relative 'lib'
 require 'json'
 require 'yaml'
 require 'zip'
+require 'uri'
 
 TOKEN = File.read("token.secret") if File.exists? "token.secret"
 
 def curl(what)
-  `curl --http1.1 -L -s --header "PRIVATE-TOKEN: #{TOKEN}" #{what}`
+  `curl -s --header "PRIVATE-TOKEN: #{TOKEN}" #{what} 2>&1`
 end
 
 URL = "https://gitlab.com/api/v4/projects/10979413"
@@ -21,7 +22,10 @@ def fetch(which)
   job = res['id']
   name = "/tmp/gitlab-artifact-#{job}.zip"
   if !File.exists?(name)
-    curl("-o #{name} #{URL}/jobs/#{job}/artifacts")
+    res = curl("-v #{URL}/jobs/#{job}/artifacts")
+    res =~ /< Location: (.*)$/
+    loc = URI::encode($1)
+    `curl --http1.1 -o "#{name}" "#{loc}" 2>&1`
   end
   Zip::File.open(name) do |io|
     data = io.get_entry("benchmarks.data")
