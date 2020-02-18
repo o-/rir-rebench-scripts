@@ -28,7 +28,7 @@ def parse(data)
   results = {}
   data.each do |line|
     d = line.split("\t")
-    name = d[5]
+    name = "#{d[5]} #{d[7]}"
     time = d[2]
     iter = Integer(d[1])
     next unless d[3] == "ms"

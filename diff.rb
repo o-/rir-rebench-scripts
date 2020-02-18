@@ -46,9 +46,6 @@ end
 c = average(ARGV[0])
 b = average(ARGV[1])
 
-wdiffs = []
-diffs = []
-
 def format_number(speedup)
   speedup_s = speedup.round(2).to_s()
 
@@ -68,38 +65,53 @@ def format_number(speedup)
   end
 end
 
-res = {}
-b.keys.sort.each do |n|
-  next if !c[n].is_a? Array
-  t = b[n]
-  name = n
-  (40-name.length).times{ name+= " " }
+suites = b.keys.map do |n|
+  n.split(" ")[1].chomp("_reduced").chomp("_extra")
+end.uniq
 
-  speedup = t[0]/c[n][0]
-  raw_speedup = t[1]/c[n][1]
+def print_suite(suite, c, b)
+  wdiffs = []
+  diffs = []
 
-  wdiffs << speedup
-  diffs << raw_speedup
+  puts "======= #{suite}"
 
-  speedup_s = format_number(speedup)
-  raw_speedup_s = format_number(raw_speedup)
+  res = {}
+  b.keys.sort.each do |n|
+    next if !c[n].is_a? Array
+    next unless n =~ /(.*) #{suite}/
+    name = $1
 
-  var = ((t[2]).round(0))
-  var_s =
-    if var > 10
-      var.to_s.red
-    elsif var < 3
-      var.to_s.gray
-    else
-      var.to_s
-    end
-  (3-var.to_s.length).times{ var_s += " "}
+    t = b[n]
+    (40-name.length).times{ name+= " " }
 
-  res["#{name} #{speedup_s}\t±#{var_s}\t(#{raw_speedup_s})    \twu: #{c[n][0].round(0)}\tvs. #{t[0].round(0)}"] = speedup
+    speedup = t[0]/c[n][0]
+    raw_speedup = t[1]/c[n][1]
+
+    wdiffs << speedup
+    diffs << raw_speedup
+
+    speedup_s = format_number(speedup)
+    raw_speedup_s = format_number(raw_speedup)
+
+    var = ((t[2]).round(0))
+    var_s =
+      if var > 10
+        var.to_s.red
+      elsif var < 3
+        var.to_s.gray
+      else
+        var.to_s
+      end
+    (3-var.to_s.length).times{ var_s += " "}
+
+    res["#{name} #{speedup_s}\t±#{var_s}\t(#{raw_speedup_s})    \twu: #{c[n][0].round(0)}\tvs. #{t[0].round(0)}"] = speedup
+  end
+
+  res.sort{|x,y| x[1] <=> y[1]}.each do |k,v|
+    puts k
+  end
+
+  puts "                                         #{mean(wdiffs).round(2)}\t\t(#{mean(diffs).round(2)})"
 end
 
-res.sort{|x,y| x[1] <=> y[1]}.each do |k,v|
-  puts k
-end
-
-puts "                                         #{mean(wdiffs).round(2)}\t\t(#{mean(diffs).round(2)})"
+suites.each {|s| print_suite(s, c, b)}
