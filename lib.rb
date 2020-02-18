@@ -19,14 +19,19 @@ def variance(results)
 end
 
 def read(f)
-  data = File.read(f).split("\n").reject{|l| l =~ /#.*/}
+  data = File.read(f)
+  parse(data)
+end
+
+def parse(data)
+  data = data.split("\n").reject{|l| l =~ /#.*/}
   results = {}
   data.each do |line|
     d = line.split("\t")
     name = d[5]
     time = d[2]
     iter = Integer(d[1])
-    exit 1 unless d[3] == "ms"
+    next unless d[3] == "ms"
     results[name] ||= [[],[]]
     if iter > WARMUP
       results[name][0] << time

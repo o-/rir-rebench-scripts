@@ -1,2 +1,4 @@
 *.data
 rebench.conf
+token.secret
+*.swp
